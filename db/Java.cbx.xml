@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<LOG_ROOT>
+	<PROJECT NAME="Java">
+		<CBX_INST_ENTRY INSTANCE_NAME="|Main|STACK:pilha|altsyncram:ram_rtl_0" CBX_FILE_NAME="altsyncram_j8c1.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|Main|ULA:myUla|lpm_mult:Mult0" CBX_FILE_NAME="mult_19t.tdf"/>
+		<CBX_INST_ENTRY INSTANCE_NAME="|Main|VAR:variables|altsyncram:ram_rtl_0" CBX_FILE_NAME="altsyncram_ra41.tdf"/>
+	</PROJECT>
+</LOG_ROOT>
