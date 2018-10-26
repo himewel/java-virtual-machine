@@ -3,72 +3,72 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow 1200mV 85C Model Setup 'clk_externo'
-Slack : -4.152
-TNS   : -257.787
+Slack : -5.587
+TNS   : -95.251
 
 Type  : Slow 1200mV 85C Model Setup 'CONTROLE:control|state.atualizaPC'
-Slack : -1.063
-TNS   : -8.911
+Slack : -1.070
+TNS   : -8.929
 
 Type  : Slow 1200mV 85C Model Hold 'clk_externo'
-Slack : -0.674
-TNS   : -1.268
+Slack : -0.448
+TNS   : -0.459
 
 Type  : Slow 1200mV 85C Model Hold 'CONTROLE:control|state.atualizaPC'
-Slack : -0.436
-TNS   : -5.232
+Slack : -0.322
+TNS   : -3.864
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'clk_externo'
 Slack : -3.000
-TNS   : -122.746
+TNS   : -70.914
 
 Type  : Slow 1200mV 85C Model Minimum Pulse Width 'CONTROLE:control|state.atualizaPC'
 Slack : -1.000
 TNS   : -12.000
 
 Type  : Slow 1200mV 0C Model Setup 'clk_externo'
-Slack : -3.677
-TNS   : -221.574
+Slack : -4.961
+TNS   : -80.157
 
 Type  : Slow 1200mV 0C Model Setup 'CONTROLE:control|state.atualizaPC'
-Slack : -0.822
-TNS   : -6.608
+Slack : -0.828
+TNS   : -6.578
 
 Type  : Slow 1200mV 0C Model Hold 'clk_externo'
-Slack : -0.679
-TNS   : -1.352
+Slack : -0.461
+TNS   : -0.520
 
 Type  : Slow 1200mV 0C Model Hold 'CONTROLE:control|state.atualizaPC'
-Slack : -0.337
-TNS   : -4.044
+Slack : -0.241
+TNS   : -2.892
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'clk_externo'
 Slack : -3.000
-TNS   : -122.746
+TNS   : -70.914
 
 Type  : Slow 1200mV 0C Model Minimum Pulse Width 'CONTROLE:control|state.atualizaPC'
 Slack : -1.000
 TNS   : -12.000
 
 Type  : Fast 1200mV 0C Model Setup 'clk_externo'
-Slack : -1.996
-TNS   : -99.438
+Slack : -2.499
+TNS   : -31.460
 
 Type  : Fast 1200mV 0C Model Setup 'CONTROLE:control|state.atualizaPC'
-Slack : -0.160
-TNS   : -0.540
+Slack : -0.172
+TNS   : -0.612
 
 Type  : Fast 1200mV 0C Model Hold 'clk_externo'
-Slack : -0.522
-TNS   : -1.376
+Slack : -0.368
+TNS   : -0.985
 
 Type  : Fast 1200mV 0C Model Hold 'CONTROLE:control|state.atualizaPC'
-Slack : -0.336
-TNS   : -4.032
+Slack : -0.261
+TNS   : -3.132
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'clk_externo'
 Slack : -3.000
-TNS   : -113.654
+TNS   : -61.879
 
 Type  : Fast 1200mV 0C Model Minimum Pulse Width 'CONTROLE:control|state.atualizaPC'
 Slack : -1.000

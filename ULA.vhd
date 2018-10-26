@@ -32,15 +32,8 @@ begin
 Aa <= opA;
 Bb <= opB;
 
-	process (clk,enable)
-	begin
-		if (rising_edge(clk)) then
-			if (enable = '1') then
-				opB <= op2;
-				opA <= op1;
-			end if;
-		end if;
-	end process;
+	opA <= op1;
+	opB <= op2;
 
 	outOp <= std_logic_vector(resize(unsigned(opA) * unsigned(opB),DATA_WIDTH)) when op(1) = '1' else
 		std_logic_vector(unsigned(opA) - unsigned(opB)) when op(0) = '1' else

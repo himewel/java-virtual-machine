@@ -1,5 +1,5 @@
 Assembler report for Java
-Wed Oct 24 21:18:43 2018
+Fri Oct 26 02:13:05 2018
 Quartus II 32-bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
 
 
@@ -37,7 +37,7 @@ applicable agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Wed Oct 24 21:18:43 2018 ;
+; Assembler Status      ; Successful - Fri Oct 26 02:13:05 2018 ;
 ; Revision Name         ; Java                                  ;
 ; Top-level Entity Name ; Main                                  ;
 ; Family                ; Cyclone III                           ;
@@ -92,8 +92,8 @@ applicable agreement for further details.
 ; Option         ; Setting           ;
 +----------------+-------------------+
 ; Device         ; EP3C25F324C6      ;
-; JTAG usercode  ; 0x00158888        ;
-; Checksum       ; 0x00158888        ;
+; JTAG usercode  ; 0x0014C887        ;
+; Checksum       ; 0x0014C887        ;
 +----------------+-------------------+
 
 
@@ -103,13 +103,13 @@ applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus II 32-bit Assembler
     Info: Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
-    Info: Processing started: Wed Oct 24 21:18:40 2018
+    Info: Processing started: Fri Oct 26 02:13:02 2018
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off Java -c Java
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus II 32-bit Assembler was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 334 megabytes
-    Info: Processing ended: Wed Oct 24 21:18:43 2018
+    Info: Peak virtual memory: 338 megabytes
+    Info: Processing ended: Fri Oct 26 02:13:05 2018
     Info: Elapsed time: 00:00:03
     Info: Total CPU time (on all processors): 00:00:02
 

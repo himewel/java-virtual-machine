@@ -36,26 +36,26 @@ architecture rtl of RAM is
 			-- Initialize each address with the address itself
 			tmp(addr_pos) := std_logic_vector(to_unsigned(0, DATA_WIDTH));
 		end loop;
-		tmp(0) := "00010000"; -- bipush
-		tmp(1) := "00000010"; -- 2
-		tmp(2) := "01010001"; -- istore_<1>
-		tmp(3) := "00010000"; -- bipush
-		tmp(4) := "00000100"; -- 4
-		tmp(5) := "01010010"; -- istore_<2>
-		tmp(6) := "00100001"; -- iload_<1>
-		tmp(7) := "00100010"; -- iload_<2>
-		tmp(8) := "01100000"; -- iadd
-		tmp(9) := "01010011"; -- istore_<3>
-		tmp(10) := "10000000"; -- NOP
-		
 		--tmp(0) := "00010000"; -- bipush
 		--tmp(1) := "00000010"; -- 2
-		--tmp(2) := "00010000"; -- bipush
-		--tmp(3) := "00000011"; -- 2
-		--tmp(4) := "10101111"; -- if_icmpEQ
-		--tmp(5) := "00100000"; -- 
-		--tmp(6) := "00000100"; -- 
-		--tmp(7) := "10000000"; -- NOP
+		--tmp(2) := "01010001"; -- istore_<1>
+		--tmp(3) := "00010000"; -- bipush
+		--tmp(4) := "00000100"; -- 4
+		--tmp(5) := "01010010"; -- istore_<2>
+		--tmp(6) := "00100001"; -- iload_<1>
+		--tmp(7) := "00100010"; -- iload_<2>
+		--tmp(8) := "01100000"; -- iadd
+		--tmp(9) := "01010011"; -- istore_<3>
+		--tmp(10) := "10000000"; -- NOP
+		
+		tmp(0) := "00010000"; -- bipush
+		tmp(1) := "00000010"; -- 2
+		tmp(2) := "00010000"; -- bipush
+		tmp(3) := "00000011"; -- 3
+		tmp(4) := "10101111"; -- if_icmpEQ
+		tmp(5) := "00000000"; -- 
+		tmp(6) := "00000000"; -- 
+		tmp(7) := "10000000"; -- NOP
 		return tmp;
 	end init_ram;	 
 
