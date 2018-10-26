@@ -42,26 +42,19 @@ begin
 		if(we = '1') then
 			ram(top_of_stack) <= data;
 			top_of_stack <= top_of_stack + 1;
-			saida1 <= (others=>'0');
-			saida2 <= (others=>'0');
 		end if;
 		if (le(1) = '1') then
 			if (le(0) = '0') then
-				ram(top_of_stack) <= (others=>'0');
 				top_of_stack <= top_of_stack - 1;
-				saida1 <= ram(top_of_stack-1);
-				saida2 <= (others=>'0');
 			elsif (le(0) = '1') then
-				ram(top_of_stack) <= (others=>'0');
-				ram(top_of_stack-1) <= (others=>'0');
 				top_of_stack <= top_of_stack - 2;
-				saida1 <= ram(top_of_stack-2);
-				saida2 <= ram(top_of_stack-1);
 			end if;
 		end if;
+		saida1 <= ram(top_of_stack-2);
+		saida2 <= ram(top_of_stack-1);
 	end if;
 	end process;
-
+	
 	out1 <= saida1;
 	out2 <= saida2;
 

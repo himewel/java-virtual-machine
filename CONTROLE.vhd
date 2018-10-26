@@ -18,9 +18,8 @@ entity CONTROLE is
 		equal				: in std_logic;
 		increment_pc	: out std_logic;
 		data_stack_from: out std_logic_vector(1 downto 0);
-		load_stack		: out std_logic;
+		load_stack		: out std_logic_vector(1 downto 0);
 		write_stack		: out std_logic;
-		load_operando	: out std_logic_vector(1 downto 0);
 		op_ula			: out std_logic_vector(1 downto 0);
 		jump				: out std_logic;
 		op_branch		: out std_logic;
@@ -42,12 +41,10 @@ architecture rtl of CONTROLE is
 		atualizaPC,
 		incremento_adicional,
 		leInstrucao,
-		decodifica,
-		leOP1,
-		leOP2,
+		decodifica,		
 		leBranch1,
 		leBranch2,
-		verificaComparacao,
+		--verificaComparacao,
 		leBranch3,
 		leBranch4,
 		escrevePilha,
@@ -73,8 +70,8 @@ architecture rtl of CONTROLE is
 	--signal std_logic_vector
 begin
 
-op_ula <= opcode(1 downto 0);
-branch_out <= "0000" & opcode(3 downto 0);
+op_ula <= input(1 downto 0);
+branch_out <= "0000" & input(3 downto 0);
 
 	-- Logic to advance to the next state
 	process (clk, reset)
@@ -176,44 +173,34 @@ branch_out <= "0000" & opcode(3 downto 0);
 						end if;
 					end if;
 				when lePilha =>
-					-- iadd, isub, imul, ificmp
-					if (opcode(DATA_WIDTH-1 downto 4) = "0110" or opcode(DATA_WIDTH-1 downto 4) = "1010") then
-						if (cont_operandos = 0) then
-							state <= leOP2;
-							cont_operandos <= cont_operandos + 1;
-						else
-							state <= leOP1;
-							cont_operandos <= 0;
+					-- iadd, isub, imul
+					if (opcode(DATA_WIDTH-1 downto 4) = "0110") then
+						state <= escrevePilha;			
+					-- ificmp
+					elsif (opcode(DATA_WIDTH-1 downto 4) = "1010") then
+						state <= incremento_adicional;
+						-- EQ
+						if (opcode(3 downto 0) = "1111") then
+							cont_salto <= equal;
+						-- NE
+						elsif (opcode(3 downto 0) = "0000") then
+							cont_salto <= not equal;
+						-- LT
+						elsif (opcode(3 downto 0) = "0001") then
+							cont_salto <= less_then;
+						-- GE
+						elsif (opcode(3 downto 0) = "0010") then
+							cont_salto <= equal or greater_then;
+						-- GT
+						elsif (opcode(3 downto 0) = "0011") then
+							cont_salto <= greater_then;
+						-- LE
+						else-- (opcode(3 downto 0) = "0100") then
+							cont_salto <= equal or less_then;
 						end if;
 					-- istore, istore_
 					else
 						state <= escreveMemoria;
-					end if;
-				when leOP2 =>
-					state <= lePilha;
-				when leOP1 =>
-					-- if_icmp
-					if (opcode(DATA_WIDTH-1 downto 4) = "1010") then
-						state <= verificaComparacao;
-					else
-						state <= escrevePilha;
-					end if;
-				when verificaComparacao=>
-					state <= incremento_adicional;
-					-- EQ
-					if (opcode(3 downto 0) = "1111") then
-						cont_salto <= equal;
-					-- NE
-					elsif (opcode(3 downto 0) = "0000") then
-						cont_salto <= not equal;
-					elsif (opcode(3 downto 0) = "0001") then
-						cont_salto <= less_then;
-					elsif (opcode(3 downto 0) = "0010") then
-						cont_salto <= equal or greater_then;
-					elsif (opcode(3 downto 0) = "0011") then
-						cont_salto <= greater_then;
-					elsif (opcode(3 downto 0) = "0100") then
-						cont_salto <= equal or less_then;
 					end if;
 				when leBranch1 =>
 					state <= incremento_adicional;
@@ -238,15 +225,14 @@ branch_out <= "0000" & opcode(3 downto 0);
 			end case;
 		end if;
 	end process;
-
+	
 	-- Logic to determine output
 	process (state,opcode)
 	begin
 		increment_pc <= '0';
 		data_stack_from <= (others=>'0');
-		load_stack <= '0';
+		load_stack <= (others=>'0');
 		write_stack	<= '0';
-		load_operando <= (others=>'0');
 		write_var <= '0';
 		write_opcode <= '0';
 		reset_out <= '0';
@@ -269,10 +255,6 @@ branch_out <= "0000" & opcode(3 downto 0);
 				write_opcode <= '1';
 			when decodifica=>
 				increment_pc <= '0';
-			when leOP1 =>
-				load_operando <= "10";
-			when leOP2 =>
-				load_operando <= "11";
 			when escrevePilha =>
 				write_stack	<= '1';
 				-- iconst
@@ -289,8 +271,13 @@ branch_out <= "0000" & opcode(3 downto 0);
 					data_stack_from <= "11";
 				end if;
 			when lePilha =>
-				load_stack <= '1';
-				load_operando <= "11";
+				-- iadd, imul, isub, if_icmp
+				if (opcode(DATA_WIDTH-1 downto 4) = "0110" or opcode(DATA_WIDTH-1 downto 4) = "1010") then
+					load_stack <= "11";
+				-- istore, istore_
+				else
+					load_stack <= "10";
+				end if;
 			when escreveMemoria =>
 				write_var <= '1';
 				-- istore
@@ -318,7 +305,6 @@ branch_out <= "0000" & opcode(3 downto 0);
 			when leBranch4 =>
 				load_branch <= "101";
 				op_branch <= '1';
-			when verificaComparacao=>
 			when NOP =>
 				reset_out <= '1';
 		end case;

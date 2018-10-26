@@ -30,7 +30,8 @@ end entity;
 architecture rtl of Main is
 signal pc_address: std_logic_vector(ADDR_WIDTH_EXT-1 downto 0);
 signal out_ram: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
-signal out_stack: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+signal out_stack1: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+signal out_stack2: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 signal out_ula: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 signal out_var: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 signal branch_controle: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
@@ -41,9 +42,8 @@ signal jmp_address_signal: std_logic_vector(ADDR_WIDTH_EXT-1 downto 0);
 signal eq_signal,gt_signal,lt_signal: std_logic;
 signal increment_pc_signal: std_logic;
 signal data_stack_from_signal: std_logic_vector(1 downto 0);
-signal load_stack_signal: std_logic;
+signal load_stack_signal: std_logic_vector(1 downto 0);
 signal write_stack_signal: std_logic;
-signal load_operando_signal: std_logic_vector(1 downto 0);
 signal op_ula_signal: std_logic_vector(1 downto 0);
 signal write_var_signal: std_logic;
 signal var_address_signal: std_logic;
@@ -65,9 +65,8 @@ signal jump_signal: std_logic;
 			equal				: in std_logic;
 			increment_pc	: out std_logic;
 			data_stack_from: out std_logic_vector(1 downto 0);
-			load_stack		: out std_logic;
+			load_stack		: out std_logic_vector(1 downto 0);
 			write_stack		: out std_logic;
-			load_operando	: out std_logic_vector(1 downto 0);
 			op_ula			: out std_logic_vector(1 downto 0);
 			jump				: out std_logic;
 			op_branch		: out std_logic;
@@ -111,9 +110,9 @@ signal jump_signal: std_logic;
 		);
 		port (
 			clk: in std_logic;
-			selecOp	: in std_logic_vector(1 downto 0);
 			op		: in std_logic_vector(1 downto 0);
-			inOp	: in std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+			op1	: in std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+			op2	: in std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 			outOP		: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 			greater_then: out std_logic;
 			less_then: out std_logic;
@@ -131,10 +130,11 @@ signal jump_signal: std_logic;
 		port 
 		(
 			clk		: in std_logic;
-			data	: in std_logic_vector((DATA_WIDTH_EXT-1) downto 0);
-			we		: in std_logic;
-			le		: in std_logic;
-			q		: out std_logic_vector((DATA_WIDTH_EXT -1) downto 0)
+			data		: in std_logic_vector((DATA_WIDTH_EXT-1) downto 0);
+			we			: in std_logic;
+			le			: in std_logic_vector(1 downto 0);
+			out1		: out std_logic_vector((DATA_WIDTH-1) downto 0);
+			out2		: out std_logic_vector((DATA_WIDTH-1) downto 0)
 		);
 	end component;
 	
@@ -170,7 +170,7 @@ begin
 	pc_counter <= pc_address;
 	data_out <= out_ram;
 	stack_in <= data_stack;
-	stack_out <= out_stack;
+	stack_out <= out_stack2;
 	ula_out <= out_ula;
 	igual <= eq_signal;
 	maior <= gt_signal;
@@ -178,8 +178,7 @@ begin
 	out_addr <= jmp_address_signal;
 	
 	control:
-	CONTROLE 
-	generic map (
+	CONTROLE generic map (
 		DATA_WIDTH => DATA_WIDTH_EXT
 	)
 	port map (
@@ -193,7 +192,6 @@ begin
 		data_stack_from => data_stack_from_signal,
 		load_stack => load_stack_signal,
 		write_stack	=> write_stack_signal,
-		load_operando => load_operando_signal,
 		op_ula => op_ula_signal,
 		jump => jump_signal,
 		op_branch => op_branch_signal,
@@ -238,7 +236,8 @@ begin
 		data => data_stack,
 		we => write_stack_signal,
 		le => load_stack_signal,
-		q => out_stack
+		out1 => out_stack1,
+		out2 => out_stack2
 	);
 	
 	myUla:
@@ -248,8 +247,8 @@ begin
 	port map (
 		clk => clk_externo,
 		op	=> op_ula_signal,
-		inOP => out_stack,
-		selecOp => load_operando_signal,
+		op1 => out_stack1,
+		op2 => out_stack2,
 		outOP	=> out_ula,
 		greater_then => gt_signal,
 		less_then => lt_signal,
@@ -266,7 +265,7 @@ begin
 	port map (
 		clk => clk_externo,
 		addr => to_integer(unsigned(var_address)),
-		data => out_stack,
+		data => out_stack2,
 		we	=> write_var_signal,
 		q => out_var
 	);
