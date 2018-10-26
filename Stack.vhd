@@ -14,8 +14,8 @@ entity STACK is
 		data	: in std_logic_vector((DATA_WIDTH-1) downto 0);
 		we		: in std_logic;
 		le		: in std_logic_vector(1 downto 0);
-		op1		: out std_logic_vector((DATA_WIDTH -1) downto 0);
-		op2		: out std_logic_vector((DATA_WIDTH -1) downto 0)
+		out1		: out std_logic_vector((DATA_WIDTH -1) downto 0);
+		out2		: out std_logic_vector((DATA_WIDTH -1) downto 0)
 	);
 
 end entity;
@@ -31,6 +31,7 @@ architecture rtl of STACK is
 
 	-- Register to hold the address
 	signal top_of_stack : natural range 0 to 2**ADDR_WIDTH-1;
+	
 	signal saida1: std_logic_vector((DATA_WIDTH -1) downto 0);
 	signal saida2: std_logic_vector((DATA_WIDTH -1) downto 0);
 begin
@@ -61,7 +62,7 @@ begin
 	end if;
 	end process;
 
-	op1 <= saida1;
-	op2 <= saida2;
+	out1 <= saida1;
+	out2 <= saida2;
 
 end rtl;

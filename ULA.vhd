@@ -9,9 +9,10 @@ entity ULA is
 	
 	port (
 		clk: in std_logic;
-		selecOp	: in std_logic_vector(1 downto 0);
+		enable: in std_logic;
 		op		: in std_logic_vector(1 downto 0);
-		inOp	: in std_logic_vector(DATA_WIDTH-1 downto 0);
+		op1	: in std_logic_vector(DATA_WIDTH-1 downto 0);
+		op2	: in std_logic_vector(DATA_WIDTH-1 downto 0);
 		outOp	: out std_logic_vector(DATA_WIDTH-1 downto 0);
 		greater_then: out std_logic;
 		less_then: out std_logic;
@@ -22,20 +23,21 @@ entity ULA is
 end entity;
 
 architecture rtl of ULA is
+
 signal opA	: std_logic_vector(DATA_WIDTH-1 downto 0);
 signal opB	: std_logic_vector(DATA_WIDTH-1 downto 0);
+
 begin
+
 Aa <= opA;
 Bb <= opB;
 
-	process (clk,opA,opB,selecOp, inOp)
+	process (clk,enable)
 	begin
 		if (rising_edge(clk)) then
-			if (selecOp = "11") then
-				opB <= inOp;
-			end if;
-			if (selecOp = "10") then
-				opA <= inOp;
+			if (enable = '1') then
+				opB <= op2;
+				opA <= op1;
 			end if;
 		end if;
 	end process;
@@ -46,4 +48,5 @@ Bb <= opB;
 	greater_then <= '1' when opA > opB else '0';
 	less_then <= '1' when opA < opB else '0';
 	equal <= '1' when opA = opB else '0';
+	
 end rtl;
