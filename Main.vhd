@@ -6,7 +6,7 @@ entity Main is
 	generic
 	(
 		DATA_WIDTH_EXT : natural := 8;
-		ADDR_WIDTH_EXT : natural := 12;
+		ADDR_WIDTH_EXT : natural := 8;
 		ADDR_VAR_WIDTH_EXT	: natural := 5
 	);
 
@@ -23,7 +23,8 @@ entity Main is
 		out_addr: out std_logic_vector(ADDR_WIDTH_EXT-1 downto 0);
 		igual: out std_logic;
 		maior: out std_logic;
-		menor: out std_logic
+		menor: out std_logic;
+		jump_out: out std_logic
 	);
 end entity;
 
@@ -52,6 +53,7 @@ signal reset_signal: std_logic;
 signal load_branch_signal: std_logic;
 signal op_branch_signal: std_logic;
 signal jump_signal: std_logic;
+signal op_pc_signal: std_logic;
 
 	component CONTROLE is
 		generic (
@@ -59,23 +61,25 @@ signal jump_signal: std_logic;
 		);
 		port (
 			clk				: in std_logic;
-			input	 			: in std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
-			reset	 			: in std_logic;
+			input	 		: in std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+			reset	 		: in std_logic;
 			greater_then	: in std_logic;
 			less_then		: in std_logic;
-			equal				: in std_logic;
+			equal			: in std_logic;
 			increment_pc	: out std_logic;
-			data_stack_from: out std_logic_vector(1 downto 0);
+			data_stack_from	: out std_logic_vector(1 downto 0);
 			load_stack		: out std_logic_vector(1 downto 0);
 			write_stack		: out std_logic;
 			op_ula			: out std_logic_vector(1 downto 0);
-			jump				: out std_logic;
+			op_pc			: out std_logic;
+			jump			: out std_logic;
 			op_branch		: out std_logic;
 			load_branch		: out std_logic;
 			write_var		: out std_logic;
 			var_address		: out std_logic;
 			reset_out		: out std_logic;
-			branch_out		: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0)
+			branch_out		: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+			jump_out			: out std_logic
 		);
 	end component;
 
@@ -99,10 +103,11 @@ signal jump_signal: std_logic;
 		);
 		port (
 			enable 	: in std_logic;
-			rst 		: in std_logic;
+			rst		: in std_logic;
+			op		: in std_logic;
 			jmp		: in std_logic;
-			inPC : in std_logic_vector(ADDR_WIDTH_EXT-1 downto 0);
-			outPC : out std_logic_vector(ADDR_WIDTH_EXT-1 downto 0)
+			inPC	: in std_logic_vector(ADDR_WIDTH_EXT-1 downto 0);
+			outPC	: out std_logic_vector(ADDR_WIDTH_EXT-1 downto 0)
 		);
 	end component;
 
@@ -198,11 +203,13 @@ begin
 			op_ula => op_ula_signal,
 			jump => jump_signal,
 			op_branch => op_branch_signal,
+			op_pc => op_pc_signal,
 			load_branch => load_branch_signal,
 			write_var => write_var_signal,
 			var_address	=> var_address_signal,
 			reset_out => reset_signal,
-			branch_out => branch_controle
+			branch_out => branch_controle,
+			jump_out => jump_out
 	);
 
 	mem: RAM
@@ -226,6 +233,7 @@ begin
 			enable => increment_pc_signal,
 			rst => reset_signal,
 			jmp => jump_signal,
+			op => op_pc_signal,
 			inPC => jmp_address_signal,
 			outPC => pc_address
 	);
@@ -308,7 +316,7 @@ begin
 		if (var_address_signal = '1') then
 			var_address <= std_logic_vector(resize(unsigned(branch_controle),ADDR_VAR_WIDTH_EXT));
 		else
-			var_address <= std_logic_vector(resize(unsigned(out_ram),ADDR_VAR_WIDTH_EXT));
+			var_address <= std_logic_vector(resize(unsigned(out_ram1),ADDR_VAR_WIDTH_EXT));
 		end if;
 	end process;
 end rtl;
