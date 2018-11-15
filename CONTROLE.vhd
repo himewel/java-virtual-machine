@@ -21,13 +21,15 @@ entity CONTROLE is
 		load_stack		: out std_logic_vector(1 downto 0);
 		write_stack		: out std_logic;
 		op_ula			: out std_logic_vector(1 downto 0);
+		op_pc				: out std_logic;
 		jump				: out std_logic;
 		op_branch		: out std_logic;
 		load_branch		: out std_logic;
 		write_var		: out std_logic;
 		var_address		: out std_logic;
 		reset_out		: out std_logic;
-		branch_out		: out std_logic_vector(DATA_WIDTH-1 downto 0)--;
+		branch_out		: out std_logic_vector(DATA_WIDTH-1 downto 0);
+		jump_out			: out std_logic
 	);
 
 end entity;
@@ -39,14 +41,13 @@ architecture rtl of CONTROLE is
 	(
 		resetPC,
 		atualizaPC,
+		atualizaPC2,
 		incremento_adicional,
+		incremento_adicional2,
 		leInstrucao,
 		decodifica,
 		leBranch1,
 		leBranch2,
-		--verificaComparacao,
-		leBranch3,
-		leBranch4,
 		escrevePilha,
 		lePilha,
 		escreveMemoria,
@@ -63,8 +64,7 @@ architecture rtl of CONTROLE is
 	attribute syn_encoding : string;
 	attribute syn_encoding of state_type : type is "safe";
 
-	signal cont_operandos: natural range 0 to 3;
-	signal cont_salto		: std_logic;
+	signal res_salto		: std_logic;
 	signal write_opcode 	: std_logic;
 	signal opcode : std_logic_vector(DATA_WIDTH-1 downto 0);
 	--signal std_logic_vector
@@ -72,9 +72,10 @@ begin
 
 op_ula <= input(1 downto 0);
 branch_out <= "0000" & input(3 downto 0);
+jump_out <= res_salto;
 
 	-- Logic to advance to the next state
-	process (clk, reset)
+	process (clk, reset, res_salto)
 	begin
 		if (reset = '1') then
 				state <= resetPC;
@@ -88,90 +89,52 @@ branch_out <= "0000" & input(3 downto 0);
 					state <= leInstrucao;
 				when atualizaPC =>
 					state <= leInstrucao;
+				when atualizaPC2 =>
+					state <= leInstrucao;
 				when leInstrucao =>
 					state <= decodifica;
 				when decodifica=>
-					-- iconst
-					if (opcode(DATA_WIDTH-1 downto 4) = "0000") then
+					res_salto <= '0';
+					-- iconst, bipush
+					if (opcode(DATA_WIDTH-1 downto 4) = "0000" or opcode(DATA_WIDTH-1 downto 3) = "00010") then
 						state <= escrevePilha;
-					-- bipush
-					elsif (opcode(DATA_WIDTH-1 downto 3) = "00010") then
-						state <= incremento_adicional;
-					-- iload
-					elsif (opcode(DATA_WIDTH-1 downto 3) = "00011") then
-						state <= incremento_adicional;
-					-- iload_
-					elsif (opcode(DATA_WIDTH-1 downto 4) = "0010") then
+					-- iload, iload_
+					elsif (opcode(DATA_WIDTH-1 downto 3) = "00011" or opcode(DATA_WIDTH-1 downto 4) = "0010") then
 						state <= leMemoria;
-					-- istore
-					elsif (opcode(DATA_WIDTH-1 downto 4) = "0011") then
-						state <= incremento_adicional;
-					-- istore_
-					elsif (opcode(DATA_WIDTH-1 downto 4) = "0101") then
+					-- istore, istore_
+					elsif (opcode(DATA_WIDTH-1 downto 4) = "0011" or opcode(DATA_WIDTH-1 downto 4) = "0101") then
 						state <= lePilha;
-					-- iadd, isub, imul
-					elsif (opcode(DATA_WIDTH-1 downto 4) = "0110") then
+					-- iadd, isub, imul, ificmp
+					elsif (opcode(DATA_WIDTH-1 downto 4) = "0110" or opcode(DATA_WIDTH-1 downto 4) = "1010") then
 						state <= lePilha;
-					-- ificmp
-					elsif (opcode(DATA_WIDTH-1 downto 4) = "1010") then
-						state <= lePilha;
-					-- goto
-					elsif (opcode(DATA_WIDTH-1 downto 3) = "10111") then
+					-- goto, goto_w
+					elsif (opcode(DATA_WIDTH-1 downto 3) = "10111" or opcode(DATA_WIDTH-1 downto 6) = "11") then
 						state <= incremento_adicional;
-						cont_salto <= '1';
-					-- goto_w
-					elsif (opcode(DATA_WIDTH-1 downto 6) = "11") then
-						state <= incremento_adicional;
-					else--if (opcode(DATA_WIDTH-1 downto 4) = "1000") then
+						res_salto <= '1';
+					else --if (opcode(DATA_WIDTH-1 downto 4) = "1000") then
 						state <= NOP;
 					end if;
 				when escrevePilha =>
-					state <= atualizaPC;
+					-- bipush, iload
+					if (opcode(DATA_WIDTH-1 downto 3) = "00010" or opcode(DATA_WIDTH-1 downto 3) = "00011") then
+						state <= atualizaPC2;
+					else
+						state <= atualizaPC;
+					end if;
 				when incremento_adicional =>
-					-- bipush
-					if (opcode(DATA_WIDTH-1 downto 3) = "00010") then
-						state <= escrevePilha;
-					-- iload
-					elsif (opcode(DATA_WIDTH-1 downto 3) = "00011") then
-						state <= leMemoria;
-					-- istore
-					elsif (opcode(DATA_WIDTH-1 downto 4) = "0011") then
-						state <= lePilha;
 					-- goto_w
-					elsif (opcode(DATA_WIDTH-1 downto 6) = "11") then
-						if (cont_operandos = 0) then
-							state <= leBranch1;
-							cont_operandos <= 1;
-						elsif (cont_operandos = 1) then
-							state <= leBranch2;
-							cont_operandos <= 2;
-						elsif (cont_operandos = 2) then
-							state <= leBranch3;
-							cont_operandos <= 2;
-						else
-							state <= leBranch4;
-							cont_operandos <= 0;
-						end if;
+					if (opcode(DATA_WIDTH-1 downto 6) = "11") then
+						state <= leBranch1;
 					-- if_icmp ou goto
 					else -- (opcode(DATA_WIDTH-1 downto 4) = "1010") then
-						if (cont_salto = '1') then
-							if (cont_operandos = 0) then
-								state <= incremento_adicional;
-								cont_operandos <= cont_operandos + 1;
-							else
-								state <= atualizaPC;
-								cont_operandos <= 0;
-							end if;
+						if (res_salto = '0') then
+							state <= leBranch1;
 						else
-							if (cont_operandos = 0) then
-								state <= leBranch1;
-								cont_operandos <= 1;
-							else -- (cont_operandos = 1) then
-								state <= leBranch2;
-								cont_operandos <= 0;
-							end if;
+							state <= atualizaPC2;
 						end if;
 					end if;
+				when incremento_adicional2 =>
+					state <= leBranch2;
 				when lePilha =>
 					-- iadd, isub, imul
 					if (opcode(DATA_WIDTH-1 downto 4) = "0110") then
@@ -181,45 +144,44 @@ branch_out <= "0000" & input(3 downto 0);
 						state <= incremento_adicional;
 						-- EQ
 						if (opcode(3 downto 0) = "1111") then
-							cont_salto <= equal;
+							res_salto <= equal;
 						-- NE
 						elsif (opcode(3 downto 0) = "0000") then
-							cont_salto <= not equal;
+							res_salto <= not equal;
 						-- LT
 						elsif (opcode(3 downto 0) = "0001") then
-							cont_salto <= less_then;
+							res_salto <= less_then;
 						-- GE
 						elsif (opcode(3 downto 0) = "0010") then
-							cont_salto <= equal or greater_then;
+							res_salto <= equal or greater_then;
 						-- GT
 						elsif (opcode(3 downto 0) = "0011") then
-							cont_salto <= greater_then;
+							res_salto <= greater_then;
 						-- LE
 						else-- (opcode(3 downto 0) = "0100") then
-							cont_salto <= equal or less_then;
+							res_salto <= equal or less_then;
 						end if;
 					-- istore, istore_
 					else
 						state <= escreveMemoria;
 					end if;
 				when leBranch1 =>
-					state <= incremento_adicional;
-				when leBranch2 =>
-					-- if_icmp, goto
-					if (opcode(DATA_WIDTH-1 downto 4) = "1010" or opcode(DATA_WIDTH-1 downto 3) = "10111") then
-						state <= atualizaPC;
-					-- goto_w
+					if (opcode(DATA_WIDTH-1 downto 4) = "1010") then
+						state <= atualizaPC2;
 					else
-						state <= incremento_adicional;
+						state <= incremento_adicional2;
 					end if;
-				when leBranch3 =>
-					state <= incremento_adicional;
-				when leBranch4 =>
-					state <= atualizaPC;
+				when leBranch2 =>
+					state <= atualizaPC2;
 				when leMemoria =>
 					state <= escrevePilha;
 				when escreveMemoria =>
-					state <= atualizaPC;
+					-- istore
+					if (opcode(DATA_WIDTH-1 downto 4) = "0011") then
+						state <= atualizaPC2;
+					else
+						state <= atualizaPC;
+					end if;
 				when NOP =>
 					state <= NOP;
 			end case;
@@ -237,6 +199,7 @@ branch_out <= "0000" & input(3 downto 0);
 		write_opcode <= '0';
 		reset_out <= '0';
 		var_address	<= '0';
+		op_pc <= '0';
 		jump <= '0';
 		op_branch <= '0';
 		load_branch <= '0';
@@ -247,10 +210,20 @@ branch_out <= "0000" & input(3 downto 0);
 				increment_pc <= '1';
 				-- if_icmp
 				if (opcode(DATA_WIDTH-1 downto 4) = "1010") then
-					jump <= '1';
+					jump <= not res_salto;
+				end if;
+			when atualizaPC2 =>
+				increment_pc <= '1';
+				op_pc <= '1';
+				-- if_icmp
+				if (opcode(DATA_WIDTH-1 downto 4) = "1010") then
+					jump <= not res_salto;
 				end if;
 			when incremento_adicional =>
 				increment_pc <= '1';
+			when incremento_adicional2 =>
+				increment_pc <= '1';
+				op_pc <= '1';
 			when leInstrucao =>
 				write_opcode <= '1';
 			when decodifica=>
@@ -266,7 +239,7 @@ branch_out <= "0000" & input(3 downto 0);
 				-- bipush
 				elsif (opcode(DATA_WIDTH-1 downto 3) = "00010") then
 					data_stack_from <= "00";
-				-- iload, iload__
+				-- iload, iload_
 				else
 					data_stack_from <= "11";
 				end if;
@@ -298,11 +271,6 @@ branch_out <= "0000" & input(3 downto 0);
 			when leBranch1 =>
 				load_branch <= '0';
 			when leBranch2 =>
-				load_branch <= '0';
-			when leBranch3 =>
-				load_branch <= '1';
-				op_branch <= '1';
-			when leBranch4 =>
 				load_branch <= '1';
 				op_branch <= '1';
 			when NOP =>
