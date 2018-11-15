@@ -168,9 +168,11 @@ signal jump_signal: std_logic;
 		);
 		port (
 			clk: in std_logic;
-			branch_in: in std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+			branch1: in std_logic_vector(DATA_WIDTH-1 downto 0);
+			branch2: in std_logic_vector(DATA_WIDTH-1 downto 0);
+			branch3: in std_logic_vector(DATA_WIDTH-1 downto 0);
+			branch4: in std_logic_vector(DATA_WIDTH-1 downto 0);
 			opBranch : in std_logic;
-			selecBranch: in std_logic_vector(2 downto 0);
 			outAddr: out std_logic_vector(ADDR_WIDTH_EXT-1 downto 0)
 		);
 	end component;
@@ -289,9 +291,11 @@ begin
 	)
 	port map (
 		clk => clk_externo,
-		branch_in => out_ram,
+		branch1 => out_ram1,
+		branch2 => out_ram2,
+		branch3 => out_ram3,
+		branch4 => out_ram4,
 		opBranch => op_branch_signal,
-		selecBranch => load_branch_signal,
 		outAddr => jmp_address_signal
 	);
 
