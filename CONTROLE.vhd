@@ -23,7 +23,7 @@ entity CONTROLE is
 		op_ula			: out std_logic_vector(1 downto 0);
 		jump				: out std_logic;
 		op_branch		: out std_logic;
-		load_branch		: out std_logic_vector(2 downto 0);
+		load_branch		: out std_logic;
 		write_var		: out std_logic;
 		var_address		: out std_logic;
 		reset_out		: out std_logic;
@@ -35,13 +35,13 @@ end entity;
 architecture rtl of CONTROLE is
 
 	-- Build an enumerated type for the state machine
-	type state_type is 
+	type state_type is
 	(
 		resetPC,
 		atualizaPC,
 		incremento_adicional,
 		leInstrucao,
-		decodifica,		
+		decodifica,
 		leBranch1,
 		leBranch2,
 		--verificaComparacao,
@@ -62,7 +62,7 @@ architecture rtl of CONTROLE is
 	-- illegal state (by returning to the reset state).
 	attribute syn_encoding : string;
 	attribute syn_encoding of state_type : type is "safe";
-	
+
 	signal cont_operandos: natural range 0 to 3;
 	signal cont_salto		: std_logic;
 	signal write_opcode 	: std_logic;
@@ -175,7 +175,7 @@ branch_out <= "0000" & input(3 downto 0);
 				when lePilha =>
 					-- iadd, isub, imul
 					if (opcode(DATA_WIDTH-1 downto 4) = "0110") then
-						state <= escrevePilha;			
+						state <= escrevePilha;
 					-- ificmp
 					elsif (opcode(DATA_WIDTH-1 downto 4) = "1010") then
 						state <= incremento_adicional;
@@ -209,7 +209,7 @@ branch_out <= "0000" & input(3 downto 0);
 					if (opcode(DATA_WIDTH-1 downto 4) = "1010" or opcode(DATA_WIDTH-1 downto 3) = "10111") then
 						state <= atualizaPC;
 					-- goto_w
-					else 
+					else
 						state <= incremento_adicional;
 					end if;
 				when leBranch3 =>
@@ -225,7 +225,7 @@ branch_out <= "0000" & input(3 downto 0);
 			end case;
 		end if;
 	end process;
-	
+
 	-- Logic to determine output
 	process (state,opcode)
 	begin
@@ -239,7 +239,7 @@ branch_out <= "0000" & input(3 downto 0);
 		var_address	<= '0';
 		jump <= '0';
 		op_branch <= '0';
-		load_branch <= (others=>'0');
+		load_branch <= '0';
 		case state is
 			when resetPC =>
 				reset_out <= '1';
@@ -267,7 +267,7 @@ branch_out <= "0000" & input(3 downto 0);
 				elsif (opcode(DATA_WIDTH-1 downto 3) = "00010") then
 					data_stack_from <= "00";
 				-- iload, iload__
-				else 
+				else
 					data_stack_from <= "11";
 				end if;
 			when lePilha =>
@@ -296,14 +296,14 @@ branch_out <= "0000" & input(3 downto 0);
 					var_address	<= '1';
 				end if;
 			when leBranch1 =>
-				load_branch <= "100";
+				load_branch <= '0';
 			when leBranch2 =>
-				load_branch <= "101";
+				load_branch <= '0';
 			when leBranch3 =>
-				load_branch <= "101";
+				load_branch <= '1';
 				op_branch <= '1';
 			when leBranch4 =>
-				load_branch <= "101";
+				load_branch <= '1';
 				op_branch <= '1';
 			when NOP =>
 				reset_out <= '1';

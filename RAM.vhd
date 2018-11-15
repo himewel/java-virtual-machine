@@ -13,11 +13,8 @@ entity RAM is
 	port (
 		clk		: in std_logic;
 		addr	: in natural range 0 to 2**ADDR_WIDTH-1;
-		q		: out std_logic_vector((DATA_WIDTH -1) downto 0);
 		q1		: out std_logic_vector((DATA_WIDTH -1) downto 0);
-		q2		: out std_logic_vector((DATA_WIDTH -1) downto 0);
-		q3		: out std_logic_vector((DATA_WIDTH -1) downto 0);
-		q4		: out std_logic_vector((DATA_WIDTH -1) downto 0)
+		q2		: out std_logic_vector((DATA_WIDTH -1) downto 0)
 	);
 end RAM;
 
@@ -26,14 +23,11 @@ architecture rtl of RAM is
 	subtype word_t is std_logic_vector((DATA_WIDTH-1) downto 0);
 	type memory_t is array(2**ADDR_WIDTH-1 downto 0) of word_t;
 
-	function init_ram
+	function init_rom
 		return memory_t is
 		variable tmp : memory_t := (others => (others => '0'));
 	begin
-		for addr_pos in 0 to 2**ADDR_WIDTH - 1 loop
-			-- Initialize each address with the address itself
-			tmp(addr_pos) := std_logic_vector(to_unsigned(0, DATA_WIDTH));
-		end loop;
+
 		--tmp(0) := "00010000"; -- bipush
 		--tmp(1) := "00000010"; -- 2
 		--tmp(2) := "01010001"; -- istore_<1>
@@ -55,19 +49,18 @@ architecture rtl of RAM is
 		tmp(6) := "00000000"; --
 		tmp(7) := "10000000"; -- NOP
 		return tmp;
-	end init_ram;
+	end init_rom;
 
 	-- Declare the RAM signal and specify a default value.	Quartus II
 	-- will create a memory initialization file (.mif) based on the
 	-- default value.
-	signal ram : memory_t := init_ram;
+	signal rom : memory_t := init_rom;
 
 	-- Register to hold the address
 	signal addr_reg : integer range 0 to 2**ADDR_WIDTH-1;
-
 begin
 
-	process(clk)
+	process(clk,rom)
 	begin
 	if(rising_edge(clk)) then
 		-- Register the address for reading
@@ -75,10 +68,6 @@ begin
 	end if;
 	end process;
 
-	q <= ram(addr_reg);
-	q1 <= ram(addr_reg+1);
-	q2 <= ram(addr_reg+2);
-	q3 <= ram(addr_reg+3);
-	q4 <= ram(addr_reg+4);
-
+	q1 <= rom(addr_reg);
+	q2 <= rom(addr_reg+1);
 end rtl;

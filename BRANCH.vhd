@@ -9,17 +9,30 @@ entity BRANCH is
 	);
 	port (
 		clk: in std_logic;
-		branch1: in std_logic_vector(DATA_WIDTH-1 downto 0);
-		branch2: in std_logic_vector(DATA_WIDTH-1 downto 0);
-		branch3: in std_logic_vector(DATA_WIDTH-1 downto 0);
-		branch4: in std_logic_vector(DATA_WIDTH-1 downto 0);
+		branch_in1: in std_logic_vector(DATA_WIDTH-1 downto 0);
+		branch_in2: in std_logic_vector(DATA_WIDTH-1 downto 0);
+		selec_in: in std_logic;
 		opBranch : in std_logic;
 		outAddr: out std_logic_vector(ADDR_WIDTH-1 downto 0)
 	);
 end entity;
 
 architecture rtl of BRANCH is
+	signal branch1,branch2,branch3,branch4: std_logic_vector(DATA_WIDTH-1 downto 0);
+	
 begin
+	process (clk)
+	begin
+		if (rising_edge(clk)) then
+			if (selec_in = '0') then
+				branch1 <= branch_in1;
+				branch2 <= branch_in2;
+			else
+				branch3 <= branch_in1;
+				branch4 <= branch_in2;
+			end if;
+		end if;
+	end process;
 
 --outAddr <= (std_logic_vector(to_unsigned(0,ADDR_WIDTH/2)) & branch1 & branch2) when opBranch = '0' else
 --(branch1 & branch2 & branch3 & branch4);
