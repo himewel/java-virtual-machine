@@ -3,7 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
 entity Main is
-	generic 
+	generic
 	(
 		DATA_WIDTH_EXT : natural := 8;
 		ADDR_WIDTH_EXT : natural := 12;
@@ -30,6 +30,10 @@ end entity;
 architecture rtl of Main is
 signal pc_address: std_logic_vector(ADDR_WIDTH_EXT-1 downto 0);
 signal out_ram: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+signal out_ram1: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+signal out_ram2: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+signal out_ram3: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+signal out_ram4: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 signal out_stack1: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 signal out_stack2: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 signal out_ula: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
@@ -86,10 +90,14 @@ signal jump_signal: std_logic;
 		port (
 			clk		: in std_logic;
 			addr	: in integer range 0 to 2**ADDR_WIDTH_EXT-1;
-			q		: out std_logic_vector((DATA_WIDTH_EXT-1) downto 0)
+			q		: out std_logic_vector((DATA_WIDTH -1) downto 0);
+			q1		: out std_logic_vector((DATA_WIDTH -1) downto 0);
+			q2		: out std_logic_vector((DATA_WIDTH -1) downto 0);
+			q3		: out std_logic_vector((DATA_WIDTH -1) downto 0);
+			q4		: out std_logic_vector((DATA_WIDTH -1) downto 0)
 		);
 	end component;
-	
+
 	component PC is
 		generic (
 			DATA_WIDTH : natural;
@@ -103,7 +111,7 @@ signal jump_signal: std_logic;
 			outPC : out std_logic_vector(ADDR_WIDTH_EXT-1 downto 0)
 		);
 	end component;
-	
+
 	component ULA is
 		generic (
 			DATA_WIDTH: natural
@@ -121,13 +129,13 @@ signal jump_signal: std_logic;
 			Bb: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0)
 		);
 	end component;
-	
+
 	component STACK is
 		generic (
 			DATA_WIDTH : natural;
 			ADDR_WIDTH : natural
 		);
-		port 
+		port
 		(
 			clk		: in std_logic;
 			data		: in std_logic_vector((DATA_WIDTH_EXT-1) downto 0);
@@ -137,13 +145,13 @@ signal jump_signal: std_logic;
 			out2		: out std_logic_vector((DATA_WIDTH-1) downto 0)
 		);
 	end component;
-	
+
 	component VAR is
 		generic (
 			DATA_WIDTH : natural;
 			ADDR_WIDTH : natural
 		);
-		port 
+		port
 		(
 			clk		: in std_logic;
 			addr	: in integer range 0 to 2**ADDR_VAR_WIDTH_EXT-1;
@@ -152,7 +160,7 @@ signal jump_signal: std_logic;
 			q		: out std_logic_vector((DATA_WIDTH_EXT -1) downto 0)
 		);
 	end component;
-	
+
 	component BRANCH is
 		generic (
 			DATA_WIDTH : natural;
@@ -176,7 +184,7 @@ begin
 	maior <= gt_signal;
 	menor <= lt_signal;
 	out_addr <= jmp_address_signal;
-	
+
 	control:
 	CONTROLE generic map (
 		DATA_WIDTH => DATA_WIDTH_EXT
@@ -201,8 +209,8 @@ begin
 		reset_out => reset_signal,
 		branch_out => branch_controle
 	);
-	
-	mem: 
+
+	mem:
 	RAM generic map (
 		DATA_WIDTH => DATA_WIDTH_EXT,
 		ADDR_WIDTH => ADDR_WIDTH_EXT
@@ -210,9 +218,13 @@ begin
 	port map (
 		clk => clk_externo,
 		addr => to_integer(unsigned(pc_address)),
-		q => out_ram
+		q => out_ram,
+		q1 => out_ram1,
+		q2 => out_ram2,
+		q3 => out_ram3,
+		q4 => out_ram4
 	);
-	
+
 	program_counter:
 	PC generic map (
 		DATA_WIDTH => DATA_WIDTH_EXT,
@@ -225,7 +237,7 @@ begin
 		inPC => jmp_address_signal,
 		outPC => pc_address
 	);
-	
+
 	pilha:
 	STACK generic map (
 		DATA_WIDTH => DATA_WIDTH_EXT,
@@ -239,7 +251,7 @@ begin
 		out1 => out_stack1,
 		out2 => out_stack2
 	);
-	
+
 	myUla:
 	ULA generic map (
 		DATA_WIDTH => DATA_WIDTH_EXT
@@ -256,7 +268,7 @@ begin
 		aa => a,
 		bb => b
 	);
-	
+
 	variables:
 	VAR generic map (
 		DATA_WIDTH => DATA_WIDTH_EXT,
@@ -269,7 +281,7 @@ begin
 		we	=> write_var_signal,
 		q => out_var
 	);
-	
+
 	calc_branch:
 	BRANCH generic map (
 		DATA_WIDTH => DATA_WIDTH_EXT,
@@ -282,7 +294,7 @@ begin
 		selecBranch => load_branch_signal,
 		outAddr => jmp_address_signal
 	);
-	
+
 	-- muliplexador para dado de entrada da pilha
 	process (data_stack_from_signal,out_ula,out_var,branch_controle,out_ram)
 	begin
@@ -296,7 +308,7 @@ begin
 			data_stack <= out_ram;
 		end if;
 	end process;
-	
+
 	-- muliplexador para endereço da cache de dados
 	process (var_address_signal,out_ram,branch_controle)
 	begin
