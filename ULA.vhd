@@ -6,10 +6,9 @@ entity ULA is
 	generic (
 		DATA_WIDTH: natural:= 8
 	);
-	
+
 	port (
 		clk: in std_logic;
-		enable: in std_logic;
 		op		: in std_logic_vector(1 downto 0);
 		op1	: in std_logic_vector(DATA_WIDTH-1 downto 0);
 		op2	: in std_logic_vector(DATA_WIDTH-1 downto 0);
@@ -41,5 +40,5 @@ Bb <= opB;
 	greater_then <= '1' when opA > opB else '0';
 	less_then <= '1' when opA < opB else '0';
 	equal <= '1' when opA = opB else '0';
-	
+
 end rtl;
