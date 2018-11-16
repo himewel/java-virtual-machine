@@ -11,25 +11,26 @@ entity CONTROLE is
 
 	port(
 		clk				: in std_logic;
-		input	 			: in std_logic_vector(DATA_WIDTH-1 downto 0);
-		reset	 			: in std_logic;
+		input 			: in std_logic_vector(DATA_WIDTH-1 downto 0);
+		reset 			: in std_logic;
 		greater_then	: in std_logic;
 		less_then		: in std_logic;
-		equal				: in std_logic;
+		equal			: in std_logic;
 		increment_pc	: out std_logic;
-		data_stack_from: out std_logic_vector(1 downto 0);
+		data_stack_from	: out std_logic_vector(1 downto 0);
 		load_stack		: out std_logic_vector(1 downto 0);
 		write_stack		: out std_logic;
 		op_ula			: out std_logic_vector(1 downto 0);
-		op_pc				: out std_logic;
-		jump				: out std_logic;
+		op_pc			: out std_logic;
+		jump			: out std_logic;
 		op_branch		: out std_logic;
 		load_branch		: out std_logic;
 		write_var		: out std_logic;
 		var_address		: out std_logic;
 		reset_out		: out std_logic;
 		branch_out		: out std_logic_vector(DATA_WIDTH-1 downto 0);
-		jump_out			: out std_logic
+		inst			: out std_logic_vector(DATA_WIDTH-1 downto 0);
+		jump_out		: out std_logic
 	);
 
 end entity;
@@ -37,8 +38,7 @@ end entity;
 architecture rtl of CONTROLE is
 
 	-- Build an enumerated type for the state machine
-	type state_type is
-	(
+	type state_type is (
 		resetPC,
 		atualizaPC,
 		atualizaPC2,
@@ -72,6 +72,7 @@ begin
 
 op_ula <= input(1 downto 0);
 branch_out <= "0000" & input(3 downto 0);
+inst <= opcode;
 jump_out <= res_salto;
 
 	-- Logic to advance to the next state
@@ -110,7 +111,7 @@ jump_out <= res_salto;
 					-- goto, goto_w
 					elsif (opcode(DATA_WIDTH-1 downto 3) = "10111" or opcode(DATA_WIDTH-1 downto 6) = "11") then
 						state <= incremento_adicional;
-						res_salto <= '1';
+						res_salto <= '0';
 					else --if (opcode(DATA_WIDTH-1 downto 4) = "1000") then
 						state <= NOP;
 					end if;
@@ -122,17 +123,7 @@ jump_out <= res_salto;
 						state <= atualizaPC;
 					end if;
 				when incremento_adicional =>
-					-- goto_w
-					if (opcode(DATA_WIDTH-1 downto 6) = "11") then
-						state <= leBranch1;
-					-- if_icmp ou goto
-					else -- (opcode(DATA_WIDTH-1 downto 4) = "1010") then
-						if (res_salto = '0') then
-							state <= leBranch1;
-						else
-							state <= atualizaPC2;
-						end if;
-					end if;
+					state <= leBranch1;
 				when incremento_adicional2 =>
 					state <= leBranch2;
 				when lePilha =>
@@ -166,7 +157,7 @@ jump_out <= res_salto;
 						state <= escreveMemoria;
 					end if;
 				when leBranch1 =>
-					if (opcode(DATA_WIDTH-1 downto 4) = "1010") then
+					if (opcode(DATA_WIDTH-1 downto 4) = "1010" or opcode(DATA_WIDTH-1 downto 3) = "10111") then
 						state <= atualizaPC2;
 					else
 						state <= incremento_adicional2;
@@ -189,7 +180,7 @@ jump_out <= res_salto;
 	end process;
 
 	-- Logic to determine output
-	process (state,opcode)
+	process (state,opcode,res_salto)
 	begin
 		increment_pc <= '0';
 		data_stack_from <= (others=>'0');
@@ -208,19 +199,21 @@ jump_out <= res_salto;
 				reset_out <= '1';
 			when atualizaPC =>
 				increment_pc <= '1';
-				-- if_icmp
-				if (opcode(DATA_WIDTH-1 downto 4) = "1010") then
-					jump <= not res_salto;
+				op_pc <= '0';
+				-- if_icmp, goto, goto_w
+				if ((opcode(DATA_WIDTH-1 downto 4) = "1010" or opcode(DATA_WIDTH-1 downto 3) = "10111" or opcode(DATA_WIDTH-1 downto 6) = "11") and res_salto = '0' ) then
+					jump <= '1';
 				end if;
 			when atualizaPC2 =>
 				increment_pc <= '1';
 				op_pc <= '1';
-				-- if_icmp
-				if (opcode(DATA_WIDTH-1 downto 4) = "1010") then
-					jump <= not res_salto;
+				-- if_icmp, goto, goto_w
+				if ((opcode(DATA_WIDTH-1 downto 4) = "1010" or opcode(DATA_WIDTH-1 downto 3) = "10111" or opcode(DATA_WIDTH-1 downto 6) = "11") and res_salto = '0' ) then
+					jump <= '1';
 				end if;
 			when incremento_adicional =>
 				increment_pc <= '1';
+				op_pc <= '0';
 			when incremento_adicional2 =>
 				increment_pc <= '1';
 				op_pc <= '1';
@@ -270,6 +263,7 @@ jump_out <= res_salto;
 				end if;
 			when leBranch1 =>
 				load_branch <= '0';
+				op_branch <= '0';
 			when leBranch2 =>
 				load_branch <= '1';
 				op_branch <= '1';

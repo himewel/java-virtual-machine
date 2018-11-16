@@ -30,13 +30,12 @@ outPC <= std_logic_vector(pc);
 		if (rst = '1') then
 			pc <= to_signed(0,ADDR_WIDTH);
 		elsif (rising_edge(enable)) then
-			if (op = '0') then
+			if (jmp = '1') then
+				pc <= signed(inPC);
+			elsif (op = '0') then
 				pc <= pc + 1;
 			else
 				pc <= pc + 2;
-			end if;
-			if (jmp = '1') then
-				pc <= signed(inPC);
 			end if;
 		end if;
 	end process;

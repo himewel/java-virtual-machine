@@ -36,7 +36,11 @@ begin
 
 --outAddr <= (std_logic_vector(to_unsigned(0,ADDR_WIDTH/2)) & branch1 & branch2) when opBranch = '0' else
 --(branch1 & branch2 & branch3 & branch4);
-outAddr <= (branch1 & branch2(3 downto 0)) when opBranch = '0' else
+
+--outAddr <= (branch1 & branch2(3 downto 0)) when opBranch = '0' else
+--(branch1((ADDR_WIDTH/4)-1 downto 0) & branch2((ADDR_WIDTH/4)-1 downto 0) & branch3((ADDR_WIDTH/4)-1 downto 0) & branch4((ADDR_WIDTH/4)-1 downto 0));
+
+outAddr <= (branch1(3 downto 0) & branch2(3 downto 0)) when opBranch = '0' else
 (branch1((ADDR_WIDTH/4)-1 downto 0) & branch2((ADDR_WIDTH/4)-1 downto 0) & branch3((ADDR_WIDTH/4)-1 downto 0) & branch4((ADDR_WIDTH/4)-1 downto 0));
 
 end rtl;
