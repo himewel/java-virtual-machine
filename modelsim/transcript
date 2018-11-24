@@ -1,0 +1,15 @@
+# Loading project Java
+vsim -voptargs=+acc work.testbench
+# vsim -voptargs=+acc work.testbench 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(rtl)
+# Loading work.main(rtl)
+# ** Warning: (vsim-3930) Integer exponentiation has overflowed; result is -2147483648.
+#    Time: 0 ps  Iteration: 0  Instance: /testbench/DUT File: /home/hime/Documentos/Java/modelsim/Main.vhd
+# ** Fatal: (vsim-3421) Value 0 for to_convert1 is out of range 0 to -2147483648 (null range).
+#    Time: 0 ps  Iteration: 0  Instance: /testbench/DUT File: /home/hime/Documentos/Java/modelsim/Main.vhd Line: 58
+# FATAL ERROR while loading design
+# Error loading design
