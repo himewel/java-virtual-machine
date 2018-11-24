@@ -5,7 +5,7 @@ use ieee.numeric_std.all;
 entity TESTBENCH is
     generic (
         DATA_WIDTH_EXT : natural := 8;
-        ADDR_WIDTH_EXT : natural := 32;
+        ADDR_WIDTH_EXT : natural := 16;
         ADDR_VAR_WIDTH_EXT	: natural := 5
     );
 end entity;
