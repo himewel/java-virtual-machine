@@ -16,7 +16,7 @@ entity VAR is
 	port
 	(
 		clk		: in std_logic;
-		addr	: in integer range 0 to 2**ADDR_WIDTH - 1;
+		addr	: in std_logic_vector((ADDR_WIDTH-1) downto 0);
 		data	: in std_logic_vector((DATA_WIDTH-1) downto 0);
 		we		: in std_logic;
 		q		: out std_logic_vector((DATA_WIDTH -1) downto 0)
@@ -33,7 +33,7 @@ architecture rtl of VAR is
 	-- Declare the RAM signal and specify a default value.	Quartus II
 	-- will create a memory initialization file (.mif) based on the
 	-- default value.
-	signal ram : memory_t;
+  signal ram : memory_t := (others => (others => '0'));
 
 	-- Register to hold the address
 	signal addr_reg : natural range 0 to 2**ADDR_WIDTH-1;
@@ -44,11 +44,11 @@ begin
 	begin
 	if(rising_edge(clk)) then
 		if(we = '1') then
-			ram(addr) <= data;
+			ram(to_integer(unsigned(addr))) <= data;
 		end if;
 
 		-- Register the address for reading
-		addr_reg <= addr;
+		addr_reg <= to_integer(unsigned(addr));
 	end if;
 	end process;
 

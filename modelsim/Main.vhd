@@ -17,6 +17,7 @@ entity Main is
 		data_out	: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 		stack_in 	: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 		stack_out	: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+		stack_out2: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 		ula_out 	: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 		a			: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
 		b			: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
@@ -24,7 +25,8 @@ entity Main is
 		igual		: out std_logic;
 		maior		: out std_logic;
 		menor		: out std_logic;
-		jump_out	: out std_logic
+		jump_out	: out std_logic;
+		state_out 	: out std_logic_vector(3 downto 0)
 	);
 end entity;
 
@@ -54,8 +56,6 @@ signal load_branch_signal: std_logic;
 signal op_branch_signal: std_logic;
 signal jump_signal: std_logic;
 signal op_pc_signal: std_logic;
-signal to_convert: natural range 0 to 2**(ADDR_VAR_WIDTH_EXT-1);
-signal to_convert1: natural range 0 to 2**(ADDR_WIDTH_EXT-1);
 
 	component CONTROLE is
 		generic (
@@ -81,7 +81,8 @@ signal to_convert1: natural range 0 to 2**(ADDR_WIDTH_EXT-1);
 			var_address		: out std_logic;
 			reset_out		: out std_logic;
 			branch_out		: out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
-			jump_out			: out std_logic
+			jump_out		: out std_logic;
+			out_state		: out std_logic_vector(3 downto 0)
 		);
 	end component;
 
@@ -92,7 +93,7 @@ signal to_convert1: natural range 0 to 2**(ADDR_WIDTH_EXT-1);
 		);
 		port (
 			clk		: in std_logic;
-			addr	: in integer range 0 to 2**ADDR_WIDTH_EXT-1;
+			addr	: in std_logic_vector((ADDR_WIDTH_EXT -1) downto 0);
 			q1		: out std_logic_vector((DATA_WIDTH_EXT -1) downto 0);
 			q2		: out std_logic_vector((DATA_WIDTH_EXT -1) downto 0)
 		);
@@ -155,7 +156,7 @@ signal to_convert1: natural range 0 to 2**(ADDR_WIDTH_EXT-1);
 		port
 		(
 			clk		: in std_logic;
-			addr	: in integer range 0 to 2**ADDR_VAR_WIDTH_EXT-1;
+			addr	: in std_logic_vector((ADDR_VAR_WIDTH_EXT-1) downto 0);
 			data	: in std_logic_vector((DATA_WIDTH_EXT-1) downto 0);
 			we		: in std_logic;
 			q		: out std_logic_vector((DATA_WIDTH_EXT -1) downto 0)
@@ -181,6 +182,7 @@ begin
 	data_out <= out_ram;
 	stack_in <= data_stack;
 	stack_out <= out_stack2;
+	stack_out2 <= out_stack1;
 	ula_out <= out_ula;
 	igual <= eq_signal;
 	maior <= gt_signal;
@@ -211,10 +213,9 @@ begin
 			var_address	=> var_address_signal,
 			reset_out => reset_signal,
 			branch_out => branch_controle,
-			jump_out => jump_out
+			jump_out => jump_out,
+			out_state => state_out
 	);
-
-	to_convert <= to_integer(signed(pc_address));
 
 	mem: RAM
 		generic map (
@@ -223,7 +224,7 @@ begin
 		)
 		port map (
 			clk => clk_externo,
-			addr => to_convert,
+			addr => pc_address,
 			q1 => out_ram,
 			q2 => out_ram1
 	);
@@ -273,8 +274,6 @@ begin
 			bb => b
 	);
 
-	to_convert1 <= to_integer(unsigned(var_address));
-
 	variables: VAR
 		generic map (
 			DATA_WIDTH => DATA_WIDTH_EXT,
@@ -282,7 +281,7 @@ begin
 		)
 		port map (
 			clk => clk_externo,
-			addr => to_convert1,
+			addr => var_address,
 			data => out_stack2,
 			we	=> write_var_signal,
 			q => out_var

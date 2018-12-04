@@ -1,16 +1,55 @@
 # Loading project Java
-# Compile of BRANCH.vhd failed with 1 errors.
+# Compile of BRANCH.vhd was successful.
 # Compile of CONTROLE.vhd was successful.
 # Compile of Main.vhd was successful.
 # Compile of PC.vhd was successful.
-# Compile of RAM.vhd was successful.
+# Compile of RAM.vhd failed with 1 errors.
 # Compile of Stack.vhd was successful.
 # Compile of TESTBENCH.vhd was successful.
 # Compile of ULA.vhd was successful.
 # Compile of VAR.vhd was successful.
 # 9 compiles, 1 failed with 1 error. 
-# Compile of BRANCH.vhd failed with 1 errors.
+# Compile of CONTROLE.vhd was successful.
 # Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd failed with 2 errors.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 1 failed with 2 errors. 
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd failed with 1 errors.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 1 failed with 1 error. 
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd failed with 2 errors.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 1 failed with 2 errors. 
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
 vsim -voptargs=+acc work.testbench
 # vsim -voptargs=+acc work.testbench 
 # Loading std.standard
@@ -20,6 +59,57 @@ vsim -voptargs=+acc work.testbench
 # Loading work.testbench(rtl)
 # Loading work.main(rtl)
 # Loading work.controle(rtl)
+# Loading ieee.std_logic_textio(body)
+# Loading work.ram(rtl)
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "somaAte5.data".
+#    Time: 0 ps  Iteration: 0  Instance: /testbench/DUT/mem File: /home/hime/Documentos/Java/modelsim/RAM.vhd Line: 35
+# FATAL ERROR while loading design
+# Error loading design
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
+vsim -voptargs=+acc work.testbench
+# vsim -voptargs=+acc work.testbench 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(rtl)
+# Loading work.main(rtl)
+# Loading work.controle(rtl)
+# Loading ieee.std_logic_textio(body)
+# Loading work.ram(rtl)
+# ** Fatal: (vsim-3551) TEXTIO : Read past end of file "somaAte5.data".
+#    Time: 0 ps  Iteration: 0  Instance: /testbench/DUT/mem File: /home/hime/Documentos/Java/modelsim/RAM.vhd Line: 35
+# FATAL ERROR while loading design
+# Error loading design
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
+vsim -voptargs=+acc work.testbench
+# vsim -voptargs=+acc work.testbench 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(rtl)
+# Loading work.main(rtl)
+# Loading work.controle(rtl)
+# Loading ieee.std_logic_textio(body)
 # Loading work.ram(rtl)
 # Loading work.pc(rtl)
 # Loading work.stack(rtl)
@@ -27,21 +117,405 @@ vsim -voptargs=+acc work.testbench
 # Loading work.var(rtl)
 # Loading work.branch(rtl)
 add wave -position end  sim:/testbench/clk
-add wave -position end  sim:/testbench/DUT/myUla/outOp
-add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/rst
 add wave -position end  sim:/testbench/eq
 add wave -position end  sim:/testbench/gt
 add wave -position end  sim:/testbench/lt
 add wave -position end  sim:/testbench/jmp
-add wave -position end  sim:/testbench/DUT/control/state
 add wave -position end  sim:/testbench/pc
+add wave -position end  sim:/testbench/addr
+add wave -position end  sim:/testbench/out_mem
+add wave -position end  sim:/testbench/in_stack
+add wave -position end  sim:/testbench/out_stack
+add wave -position end  sim:/testbench/out_stack2
+add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/p1
+add wave -position end  sim:/testbench/p2
+add wave -position end  sim:/testbench/state_out
 run
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-#    Time: 0 ps  Iteration: 0  Instance: /testbench/DUT
+#    Time: 770 ns  Iteration: 1  Instance: /testbench/DUT/variables
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-#    Time: 0 ps  Iteration: 0  Instance: /testbench/DUT
+#    Time: 790 ns  Iteration: 1  Instance: /testbench/DUT/variables
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-#    Time: 690 ns  Iteration: 5  Instance: /testbench/DUT
+#    Time: 810 ns  Iteration: 1  Instance: /testbench/DUT/variables
 # ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
-#    Time: 790 ns  Iteration: 5  Instance: /testbench/DUT
-write format wave -window .main_pane.wave.interior.cs.body.pw.wf /home/hime/Documentos/Java/modelsim/wave.do
+#    Time: 830 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 850 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 870 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 890 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd failed with 1 errors.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 1 failed with 1 error. 
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd failed with 1 errors.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 1 failed with 1 error. 
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
+vsim -voptargs=+acc work.testbench
+# vsim -voptargs=+acc work.testbench 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(rtl)
+# Loading work.main(rtl)
+# Loading work.controle(rtl)
+# Loading ieee.std_logic_textio(body)
+# Loading work.ram(rtl)
+# Loading work.pc(rtl)
+# Loading work.stack(rtl)
+# Loading work.ula(rtl)
+# Loading work.var(rtl)
+# Loading work.branch(rtl)
+add wave -position end  sim:/testbench/clk
+add wave -position end  sim:/testbench/rst
+add wave -position end  sim:/testbench/eq
+add wave -position end  sim:/testbench/gt
+add wave -position end  sim:/testbench/lt
+add wave -position end  sim:/testbench/jmp
+add wave -position end  sim:/testbench/pc
+add wave -position end  sim:/testbench/addr
+add wave -position end  sim:/testbench/out_mem
+add wave -position end  sim:/testbench/in_stack
+add wave -position end  sim:/testbench/out_stack
+add wave -position end  sim:/testbench/out_stack2
+add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/p1
+add wave -position end  sim:/testbench/p2
+add wave -position end  sim:/testbench/state_out
+run
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 770 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 790 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 810 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 830 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 850 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 870 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 890 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
+vsim -voptargs=+acc work.testbench
+# vsim -voptargs=+acc work.testbench 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(rtl)
+# Loading work.main(rtl)
+# Loading work.controle(rtl)
+# Loading ieee.std_logic_textio(body)
+# Loading work.ram(rtl)
+# Loading work.pc(rtl)
+# Loading work.stack(rtl)
+# Loading work.ula(rtl)
+# Loading work.var(rtl)
+# Loading work.branch(rtl)
+add wave -position end  sim:/testbench/clk
+add wave -position end  sim:/testbench/rst
+add wave -position end  sim:/testbench/eq
+add wave -position end  sim:/testbench/gt
+add wave -position end  sim:/testbench/lt
+add wave -position end  sim:/testbench/jmp
+add wave -position end  sim:/testbench/pc
+add wave -position end  sim:/testbench/addr
+add wave -position end  sim:/testbench/out_mem
+add wave -position end  sim:/testbench/in_stack
+add wave -position end  sim:/testbench/out_stack
+add wave -position end  sim:/testbench/out_stack2
+add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/p1
+add wave -position end  sim:/testbench/p2
+add wave -position end  sim:/testbench/state_out
+run
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 530 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 550 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 570 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 590 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 610 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 630 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# ** Warning: NUMERIC_STD.TO_INTEGER: metavalue detected, returning 0
+#    Time: 650 ns  Iteration: 1  Instance: /testbench/DUT/variables
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
+vsim -voptargs=+acc work.testbench
+# vsim -voptargs=+acc work.testbench 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(rtl)
+# Loading work.main(rtl)
+# Loading work.controle(rtl)
+# Loading ieee.std_logic_textio(body)
+# Loading work.ram(rtl)
+# Loading work.pc(rtl)
+# Loading work.stack(rtl)
+# Loading work.ula(rtl)
+# Loading work.var(rtl)
+# Loading work.branch(rtl)
+add wave -position end  sim:/testbench/clk
+add wave -position end  sim:/testbench/rst
+add wave -position end  sim:/testbench/eq
+add wave -position end  sim:/testbench/gt
+add wave -position end  sim:/testbench/lt
+add wave -position end  sim:/testbench/jmp
+add wave -position end  sim:/testbench/pc
+add wave -position end  sim:/testbench/addr
+add wave -position end  sim:/testbench/out_mem
+add wave -position end  sim:/testbench/in_stack
+add wave -position end  sim:/testbench/out_stack
+add wave -position end  sim:/testbench/out_stack2
+add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/p1
+add wave -position end  sim:/testbench/p2
+add wave -position end  sim:/testbench/state_out
+run
+# Changing window so values will track the active time
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
+vsim -voptargs=+acc work.testbench
+# vsim -voptargs=+acc work.testbench 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(rtl)
+# Loading work.main(rtl)
+# Loading work.controle(rtl)
+# Loading ieee.std_logic_textio(body)
+# Loading work.ram(rtl)
+# Loading work.pc(rtl)
+# Loading work.stack(rtl)
+# Loading work.ula(rtl)
+# Loading work.var(rtl)
+# Loading work.branch(rtl)
+add wave -position end  sim:/testbench/clk
+add wave -position end  sim:/testbench/rst
+add wave -position end  sim:/testbench/eq
+add wave -position end  sim:/testbench/gt
+add wave -position end  sim:/testbench/lt
+add wave -position end  sim:/testbench/jmp
+add wave -position end  sim:/testbench/pc
+add wave -position end  sim:/testbench/addr
+add wave -position end  sim:/testbench/out_mem
+add wave -position end  sim:/testbench/in_stack
+add wave -position end  sim:/testbench/out_stack
+add wave -position end  sim:/testbench/out_stack2
+add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/p1
+add wave -position end  sim:/testbench/p2
+add wave -position end  sim:/testbench/state_out
+run
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
+vsim -voptargs=+acc work.testbench
+# vsim -voptargs=+acc work.testbench 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(rtl)
+# Loading work.main(rtl)
+# Loading work.controle(rtl)
+# Loading ieee.std_logic_textio(body)
+# Loading work.ram(rtl)
+# Loading work.pc(rtl)
+# Loading work.stack(rtl)
+# Loading work.ula(rtl)
+# Loading work.var(rtl)
+# Loading work.branch(rtl)
+add wave -position end  sim:/testbench/clk
+add wave -position end  sim:/testbench/rst
+add wave -position end  sim:/testbench/eq
+add wave -position end  sim:/testbench/gt
+add wave -position end  sim:/testbench/lt
+add wave -position end  sim:/testbench/jmp
+add wave -position end  sim:/testbench/pc
+add wave -position end  sim:/testbench/addr
+add wave -position end  sim:/testbench/out_mem
+add wave -position end  sim:/testbench/in_stack
+add wave -position end  sim:/testbench/out_stack
+add wave -position end  sim:/testbench/out_stack2
+add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/p1
+add wave -position end  sim:/testbench/p2
+add wave -position end  sim:/testbench/state_out
+run
+# Compile of BRANCH.vhd was successful.
+# Compile of CONTROLE.vhd was successful.
+# Compile of Main.vhd was successful.
+# Compile of PC.vhd was successful.
+# Compile of RAM.vhd was successful with warnings.
+# Compile of Stack.vhd was successful.
+# Compile of TESTBENCH.vhd was successful.
+# Compile of ULA.vhd was successful.
+# Compile of VAR.vhd was successful.
+# 9 compiles, 0 failed with no errors. 
+vsim -voptargs=+acc work.testbench
+# vsim -voptargs=+acc work.testbench 
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading work.testbench(rtl)
+# Loading work.main(rtl)
+# Loading work.controle(rtl)
+# Loading ieee.std_logic_textio(body)
+# Loading work.ram(rtl)
+# Loading work.pc(rtl)
+# Loading work.stack(rtl)
+# Loading work.ula(rtl)
+# Loading work.var(rtl)
+# Loading work.branch(rtl)
+add wave -position end  sim:/testbench/clk
+add wave -position end  sim:/testbench/rst
+add wave -position end  sim:/testbench/eq
+add wave -position end  sim:/testbench/gt
+add wave -position end  sim:/testbench/lt
+add wave -position end  sim:/testbench/jmp
+add wave -position end  sim:/testbench/pc
+add wave -position end  sim:/testbench/addr
+add wave -position end  sim:/testbench/out_mem
+add wave -position end  sim:/testbench/in_stack
+add wave -position end  sim:/testbench/out_stack
+add wave -position end  sim:/testbench/out_stack2
+add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/p1
+add wave -position end  sim:/testbench/p2
+add wave -position end  sim:/testbench/state_out
+run 2000 ns
+run 3000 ns
+# WARNING: No extended dataflow license exists
+# WARNING: No extended dataflow license exists
+mem load -i /home/hime/Documentos/Java/modelsim/somaAte5.data /testbench/DUT/mem/rom
+# (vsim-3650) Format not specified for file '/home/hime/Documentos/Java/modelsim/somaAte5.data'.
+mem load -i /home/hime/Documentos/Java/modelsim/somaAte5.data -format binary /testbench/DUT/mem/rom
+mem load -i /home/hime/Documentos/Java/modelsim/somaAte5.data -format binary -startaddress 65535 -endaddress 0 /testbench/DUT/mem/rom
+# (vsim-3943) Too few data words read on line 11 of file "/home/hime/Documentos/Java/modelsim/somaAte5.data". Expected 65536, found 11.
+mem load -i /home/hime/Documentos/Java/modelsim/somaAte5.data -format binary -startaddress 65535 -endaddress 65535 /testbench/DUT/mem/rom
+# (vsim-3942) Too many data words read on line 2 of file "/home/hime/Documentos/Java/modelsim/somaAte5.data". (Current address [65534], address range [65535])
+mem load -i /home/hime/Documentos/Java/modelsim/somaAte5.data -format binary -startaddress 0 -endaddress 15 /testbench/DUT/mem/rom
+# (vsim-3943) Too few data words read on line 11 of file "/home/hime/Documentos/Java/modelsim/somaAte5.data". Expected 16, found 11.
+mem load -i /home/hime/Documentos/Java/modelsim/somaAte5.data -format binary -startaddress 0 -endaddress 10 /testbench/DUT/mem/rom
+run 3000 ns
+add wave -position end  sim:/testbench/clk
+add wave -position end  sim:/testbench/rst
+add wave -position end  sim:/testbench/eq
+add wave -position end  sim:/testbench/gt
+add wave -position end  sim:/testbench/lt
+add wave -position end  sim:/testbench/jmp
+add wave -position end  sim:/testbench/pc
+add wave -position end  sim:/testbench/addr
+add wave -position end  sim:/testbench/out_mem
+add wave -position end  sim:/testbench/in_stack
+add wave -position end  sim:/testbench/out_stack
+add wave -position end  sim:/testbench/out_stack2
+add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/p1
+add wave -position end  sim:/testbench/p2
+add wave -position end  sim:/testbench/state_out
+run 3000 ns
+mem load -i /home/hime/Documentos/Java/modelsim/somaAte5.data -format binary -startaddress 0 -endaddress 9 /testbench/DUT/mem/rom
+# (vsim-3942) Too many data words read on line 11 of file "/home/hime/Documentos/Java/modelsim/somaAte5.data". (Current address [10], address range [0:9])
+mem load -i /home/hime/Documentos/Java/modelsim/somaAte5.data -format binary -startaddress 0 -endaddress 10 /testbench/DUT/mem/rom
+mem load -filltype value -filldata 000000000 -fillradix symbolic /testbench/DUT/variables/ram(1)
+# (vsim-3862) Too many digits in data '000000000'.
+mem load -filltype value -filldata 00000000 -fillradix symbolic /testbench/DUT/variables/ram(1)
+mem load -i /home/hime/Documentos/Java/modelsim/soma2e4.dat -format binary -startaddress 0 -endaddress 10 /testbench/DUT/mem/rom
+add wave -position end  sim:/testbench/clk
+add wave -position end  sim:/testbench/rst
+add wave -position end  sim:/testbench/eq
+add wave -position end  sim:/testbench/gt
+add wave -position end  sim:/testbench/lt
+add wave -position end  sim:/testbench/jmp
+add wave -position end  sim:/testbench/pc
+add wave -position end  sim:/testbench/addr
+add wave -position end  sim:/testbench/out_mem
+add wave -position end  sim:/testbench/in_stack
+add wave -position end  sim:/testbench/out_stack
+add wave -position end  sim:/testbench/out_stack2
+add wave -position end  sim:/testbench/ula
+add wave -position end  sim:/testbench/p1
+add wave -position end  sim:/testbench/p2
+add wave -position end  sim:/testbench/state_out
+run 3000 ns

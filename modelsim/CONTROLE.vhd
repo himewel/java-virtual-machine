@@ -30,7 +30,8 @@ entity CONTROLE is
 		reset_out		: out std_logic;
 		branch_out		: out std_logic_vector(DATA_WIDTH-1 downto 0);
 		inst			: out std_logic_vector(DATA_WIDTH-1 downto 0);
-		jump_out		: out std_logic
+		jump_out		: out std_logic;
+		out_state		: out std_logic_vector(3 downto 0)
 	);
 
 end entity;
@@ -123,7 +124,11 @@ jump_out <= res_salto;
 						state <= atualizaPC;
 					end if;
 				when incremento_adicional =>
-					state <= leBranch1;
+					if (res_salto = '1') then
+						state <= atualizaPC2;
+					else
+						state <= leBranch1;
+					end if;
 				when incremento_adicional2 =>
 					state <= leBranch2;
 				when lePilha =>
@@ -197,14 +202,17 @@ jump_out <= res_salto;
 		case state is
 			when resetPC =>
 				reset_out <= '1';
+				out_state <= "0000"; -- 0
 			when atualizaPC =>
+				out_state <= "0001"; -- 1
 				increment_pc <= '1';
 				op_pc <= '0';
 				-- if_icmp, goto, goto_w
-				if ((opcode(DATA_WIDTH-1 downto 4) = "1010" or opcode(DATA_WIDTH-1 downto 3) = "10111" or opcode(DATA_WIDTH-1 downto 6) = "11") and res_salto = '0' ) then
+				if ((opcode(DATA_WIDTH-1 downto 4) = "1010" and res_salto = '0') or opcode(DATA_WIDTH-1 downto 3) = "10111" or (opcode(DATA_WIDTH-1 downto 6) = "11")) then
 					jump <= '1';
 				end if;
 			when atualizaPC2 =>
+				out_state <= "0010"; -- 2
 				increment_pc <= '1';
 				op_pc <= '1';
 				-- if_icmp, goto, goto_w
@@ -212,16 +220,21 @@ jump_out <= res_salto;
 					jump <= '1';
 				end if;
 			when incremento_adicional =>
+				out_state <= "0011"; -- 3
 				increment_pc <= '1';
 				op_pc <= '0';
 			when incremento_adicional2 =>
+				out_state <= "0100"; -- 4
 				increment_pc <= '1';
 				op_pc <= '1';
 			when leInstrucao =>
+				out_state <= "0101"; -- 5
 				write_opcode <= '1';
 			when decodifica=>
+				out_state <= "0110"; -- 6
 				increment_pc <= '0';
 			when escrevePilha =>
+				out_state <= "0111"; -- 7
 				write_stack	<= '1';
 				-- iconst
 				if (opcode(DATA_WIDTH-1 downto 4) = "0000") then
@@ -237,6 +250,7 @@ jump_out <= res_salto;
 					data_stack_from <= "11";
 				end if;
 			when lePilha =>
+				out_state <= "1000"; -- 8
 				-- iadd, imul, isub, if_icmp
 				if (opcode(DATA_WIDTH-1 downto 4) = "0110" or opcode(DATA_WIDTH-1 downto 4) = "1010") then
 					load_stack <= "11";
@@ -245,6 +259,7 @@ jump_out <= res_salto;
 					load_stack <= "10";
 				end if;
 			when escreveMemoria =>
+				out_state <= "1001"; -- 9
 				write_var <= '1';
 				-- istore
 				if (opcode(DATA_WIDTH-1 downto 4) = "0011") then
@@ -254,6 +269,7 @@ jump_out <= res_salto;
 					var_address	<= '1';
 				end if;
 			when leMemoria =>
+				out_state <= "1010"; -- 10
 				-- iload
 				if (opcode(DATA_WIDTH-1 downto 3) = "00011") then
 					var_address	<= '0';
@@ -262,12 +278,15 @@ jump_out <= res_salto;
 					var_address	<= '1';
 				end if;
 			when leBranch1 =>
+				out_state <= "1011"; -- 11
 				load_branch <= '0';
 				op_branch <= '0';
 			when leBranch2 =>
+				out_state <= "1100"; -- 12
 				load_branch <= '1';
 				op_branch <= '1';
 			when NOP =>
+				out_state <= "1101"; -- 13
 				reset_out <= '1';
 		end case;
 	end process;

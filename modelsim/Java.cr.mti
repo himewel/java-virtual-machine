@@ -16,14 +16,13 @@ Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
 -- Compiling entity VAR
 -- Compiling architecture rtl of VAR
 
-} {} {}} /home/hime/Documentos/Java/modelsim/BRANCH.vhd {1 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/BRANCH.vhd
+} {} {}} /home/hime/Documentos/Java/modelsim/Stack.vhd {1 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/Stack.vhd
 Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
 -- Loading package STANDARD
 -- Loading package TEXTIO
 -- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity BRANCH
--- Compiling architecture rtl of BRANCH
+-- Compiling entity STACK
+-- Compiling architecture rtl of STACK
 
 } {} {}} /home/hime/Documentos/Java/modelsim/ULA.vhd {1 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/ULA.vhd
 Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
@@ -34,14 +33,6 @@ Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
 -- Compiling entity ULA
 -- Compiling architecture rtl of ULA
 
-} {} {}} /home/hime/Documentos/Java/modelsim/Stack.vhd {1 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/Stack.vhd
-Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Compiling entity STACK
--- Compiling architecture rtl of STACK
-
 } {} {}} /home/hime/Documentos/Java/modelsim/CONTROLE.vhd {1 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/CONTROLE.vhd
 Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
 -- Loading package STANDARD
@@ -49,6 +40,15 @@ Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
 -- Loading package std_logic_1164
 -- Compiling entity CONTROLE
 -- Compiling architecture rtl of CONTROLE
+
+} {} {}} /home/hime/Documentos/Java/modelsim/BRANCH.vhd {1 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/BRANCH.vhd
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Compiling entity BRANCH
+-- Compiling architecture rtl of BRANCH
 
 } {} {}} /home/hime/Documentos/Java/modelsim/PC.vhd {1 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/PC.vhd
 Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
@@ -59,6 +59,17 @@ Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
 -- Compiling entity PC
 -- Compiling architecture rtl of PC
 
+} {} {}} /home/hime/Documentos/Java/modelsim/RAM.vhd {2 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/RAM.vhd
+Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
+-- Loading package STANDARD
+-- Loading package TEXTIO
+-- Loading package std_logic_1164
+-- Loading package NUMERIC_STD
+-- Loading package std_logic_textio
+-- Compiling entity RAM
+-- Compiling architecture rtl of RAM
+** Warning: /home/hime/Documentos/Java/modelsim/RAM.vhd(30): (vcom-1194) FILE declaration was written using VHDL 1987 syntax.
+
 } {} {}} /home/hime/Documentos/Java/modelsim/TESTBENCH.vhd {1 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/TESTBENCH.vhd
 Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
 -- Loading package STANDARD
@@ -67,14 +78,5 @@ Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
 -- Loading package NUMERIC_STD
 -- Compiling entity TESTBENCH
 -- Compiling architecture rtl of TESTBENCH
-
-} {} {}} /home/hime/Documentos/Java/modelsim/RAM.vhd {1 {vcom -work work -2002 -explicit /home/hime/Documentos/Java/modelsim/RAM.vhd
-Model Technology ModelSim ALTERA vcom 10.1d Compiler 2012.11 Nov  2 2012
--- Loading package STANDARD
--- Loading package TEXTIO
--- Loading package std_logic_1164
--- Loading package NUMERIC_STD
--- Compiling entity RAM
--- Compiling architecture rtl of RAM
 
 } {} {}}

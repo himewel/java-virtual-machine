@@ -4,6 +4,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
+use std.textio.all;
+use ieee.std_logic_textio.all;
 
 entity RAM is
 	generic (
@@ -12,7 +14,7 @@ entity RAM is
 	);
 	port (
 		clk		: in std_logic;
-		addr	: in natural range 0 to 2**ADDR_WIDTH-1;
+		addr	: in std_logic_vector((ADDR_WIDTH -1) downto 0);
 		q1		: out std_logic_vector((DATA_WIDTH -1) downto 0);
 		q2		: out std_logic_vector((DATA_WIDTH -1) downto 0)
 	);
@@ -22,6 +24,19 @@ architecture rtl of RAM is
 	-- Build a 2-D array type for the RAM
 	subtype word_t is std_logic_vector((DATA_WIDTH-1) downto 0);
 	type memory_t is array(2**ADDR_WIDTH-1 downto 0) of word_t;
+
+  impure function InitRomFromFile (RomFileName: in string; N: in integer) 
+    return memory_t is
+    FILE romfile : text is in RomFileName;
+    variable RomFileLine : line;
+    variable tmp : memory_t := (others => (others => '0'));
+  begin
+    for i in 0 to N-1 loop
+      readline(romfile, RomFileLine);
+      hread(RomFileLine, tmp(i));
+    end loop;
+    return tmp;
+  end function;
 
 	function init_rom
 		return memory_t is
@@ -40,14 +55,14 @@ architecture rtl of RAM is
 		--tmp(9) := "01010011"; -- istore_<3>
 		--tmp(10) := "10000000"; -- NOP
 
-		--tmp(0) := "00010000"; -- bipush
-		--tmp(1) := "00000010"; -- 2
-		--tmp(2) := "00010000"; -- bipush
-		--tmp(3) := "00000011"; -- 3
-		--tmp(4) := "10101111"; -- if_icmpEQ
-		--tmp(5) := "00000000"; --
-		--tmp(6) := "00000000"; --
-		--tmp(7) := "10000000"; -- NOP
+--		tmp(0) := "00010000"; -- bipush
+--		tmp(1) := "00000010"; -- 2
+--		tmp(2) := "00010000"; -- bipush
+--		tmp(3) := "00000011"; -- 3
+--		tmp(4) := "10101111"; -- if_icmpEQ
+--		tmp(5) := "00000000"; --
+--		tmp(6) := "00000000"; --
+--		tmp(7) := "10000000"; -- NOP
 
 		tmp(0) := "00100001"; -- iload_<1>
 		tmp(1) := "00010000"; -- bipush
@@ -56,14 +71,10 @@ architecture rtl of RAM is
 		tmp(4) := "01010001"; -- istore_<1>
 		tmp(5) := "00100001"; -- iload_<1>
 		tmp(6) := "00000101"; -- iconst_<5>
-		tmp(7) := "11111000"; -- if_icmpEQ
+		tmp(7) := "10101111"; -- if_icmpEQ
 		tmp(8) := "00000000"; --
 		tmp(9) := "00000000"; --
-		tmp(10) := "00000000"; --
-		tmp(11) := "00000000"; --
-		tmp(12) := "10000000"; -- NOP
-
-
+		tmp(10) := "10000000"; -- NOP
 		return tmp;
 	end init_rom;
 
@@ -71,6 +82,9 @@ architecture rtl of RAM is
 	-- will create a memory initialization file (.mif) based on the
 	-- default value.
 	signal rom : memory_t := init_rom;
+  --signal rom : memory_t := InitRomFromFile("soma2e4.dat",11);
+  --signal rom : memory_t := InitRomFromFile("compara2e3.data",8);
+  --signal rom : memory_t := InitRomFromFile("somaAte5.data",11);
 
 	-- Register to hold the address
 	signal addr_reg : integer range 0 to 2**ADDR_WIDTH-1;
@@ -80,7 +94,7 @@ begin
 	begin
 	if(rising_edge(clk)) then
 		-- Register the address for reading
-		addr_reg <= addr;
+		addr_reg <= to_integer(unsigned(addr));
 	end if;
 	end process;
 

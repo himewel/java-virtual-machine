@@ -25,6 +25,7 @@ architecture rtl of TESTBENCH is
     		data_out      : out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
     		stack_in      : out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
     		stack_out     : out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+    		stack_out2    : out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);  
     		ula_out       : out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
     		a             : out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
     		b             : out std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
@@ -32,13 +33,15 @@ architecture rtl of TESTBENCH is
     		igual         : out std_logic;
     		maior         : out std_logic;
     		menor         : out std_logic;
-    		jump_out      : out std_logic
+    		jump_out      : out std_logic;
+            state_out 	  : out std_logic_vector(3 downto 0)
     	);
     end component;
 
     signal clk,rst,eq,gt,lt,jmp: std_logic := '0';
     signal pc,addr: std_logic_vector(ADDR_WIDTH_EXT-1 downto 0);
-    signal out_mem,in_stack,out_stack,ula,p1,p2: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+    signal out_mem,in_stack,out_stack,out_stack2,ula,p1,p2: std_logic_vector(DATA_WIDTH_EXT-1 downto 0);
+    signal state_out: std_logic_vector(3 downto 0);
 
 begin
 
@@ -55,6 +58,7 @@ begin
             data_out	=> out_mem,
             stack_in    => in_stack,
             stack_out	=> out_stack,
+            stack_out2 => out_stack2,
             ula_out     => ula,
             a           => p1,
             b           => p2,
@@ -62,7 +66,8 @@ begin
             igual       => eq,
             maior       => gt,
             menor       => lt,
-            jump_out    => jmp
+            jump_out    => jmp,
+            state_out   => state_out
     );
 
     process
@@ -71,6 +76,6 @@ begin
     	clk <= not clk;
     end process;
 
-    --rst <= '1' after  ns, '0' after 100 ns;
+    rst <= '1' after 0 ns, '0' after 20 ns;
 
 end rtl;

@@ -35,33 +35,36 @@ begin
 		end if;
 	end process;
 
-	process (opBranch)
-	begin
-		if (ADDR_WIDTH = 32) then
-			if (opBranch = '0') then
-				outAddr <= std_logic_vector(to_unsigned(0,ADDR_WIDTH/2)) & branch1 & branch2;
-			else
-				outAddr <= branch1 & branch2 & branch3 & branch4;
-			end if;
-		elsif (ADDR_WIDTH = 16) then
-			if (opBranch = '0') then
-				outAddr <= branch1 & branch2;
-			else
-				outAddr <= branch1(3 downto 0) & branch2(3 downto 0) & branch3(3 downto 0) & branch4(3 downto 0);
-			end if;
-		elsif (ADDR_WIDTH = 12) then
-			if (opBranch = '0') then
-				outAddr <= branch1(5 downto 0) & branch2(5 downto 0);
-			else
-				outAddr <= branch1(2 downto 0) & branch2(2 downto 0) & branch3(2 downto 0) & branch4(2 downto 0);
-			end if;
-		else
-			if (opBranch = '0') then
-				outAddr <= branch1(3 downto 0) & branch2(3 downto 0);
-			else
-				outAddr <= branch1(1 downto 0) & branch2(1 downto 0) & branch3(1 downto 0) & branch4(1 downto 0);
-			end if;
-		end if;
-	end process;
+outAddr <= branch1 & branch2 when opBranch = '0' else
+    branch1(3 downto 0) & branch2(3 downto 0) & branch3(3 downto 0) & branch4(3 downto 0);
+
+	--process (clk)
+	--begin
+	--	if (ADDR_WIDTH = 32) then
+	--		if (opBranch = '0') then
+	--			outAddr <= std_logic_vector(to_unsigned(0,ADDR_WIDTH/2)) & branch1 & branch2;
+	--		else
+	--			outAddr <= branch1 & branch2 & branch3 & branch4;
+	--		end if;
+	--	elsif (ADDR_WIDTH = 16) then
+	--	if (opBranch = '0') then
+	--			outAddr <= branch1 & branch2;
+	--	else
+	--			outAddr <= branch1(3 downto 0) & branch2(3 downto 0) & branch3(3 downto 0) & branch4(3 downto 0);
+	--  end if;
+	--	elsif (ADDR_WIDTH = 12) then
+	--		if (opBranch = '0') then
+	--			outAddr <= branch1(5 downto 0) & branch2(5 downto 0);
+	--		else
+	--			outAddr <= branch1(2 downto 0) & branch2(2 downto 0) & branch3(2 downto 0) & branch4(2 downto 0);
+	--		end if;
+	--	else
+	--		if (opBranch = '0') then
+	--			outAddr <= branch1(3 downto 0) & branch2(3 downto 0);
+	--		else
+	--			outAddr <= branch1(1 downto 0) & branch2(1 downto 0) & branch3(1 downto 0) & branch4(1 downto 0);
+	--		end if;
+	--	end if;
+	--end process;
 
 end rtl;

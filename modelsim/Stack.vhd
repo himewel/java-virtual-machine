@@ -27,7 +27,7 @@ architecture rtl of STACK is
 	type memory_t is array(2**ADDR_WIDTH-1 downto 0) of word_t;
 
 	-- Declare the RAM signal.
-	signal ram : memory_t;
+	signal ram : memory_t := (others => (others => '0'));
 
 	-- Register to hold the address
 	signal top_of_stack : natural range 0 to 2**ADDR_WIDTH-1;
@@ -38,30 +38,31 @@ begin
 
 	process(clk)
 	begin
-	if(rising_edge(clk)) then
-		if(we = '1') then
-			ram(top_of_stack) <= data;
-			top_of_stack <= top_of_stack + 1;
-		end if;
-		if (le(1) = '1') then
-			if (le(0) = '0') then
-				top_of_stack <= top_of_stack - 1;
-			elsif (le(0) = '1') then
-				top_of_stack <= top_of_stack - 2;
+		if (rising_edge(clk)) then
+			if (we = '1') then
+				ram(top_of_stack) <= data;
+				top_of_stack <= top_of_stack + 1;
+			end if;
+			if (le(1) = '1') then
+				if (le(0) = '0') then
+					top_of_stack <= top_of_stack - 1;
+				elsif (le(0) = '1') then
+					top_of_stack <= top_of_stack - 2;
+				end if;
+			end if;
+
+			if (top_of_stack-2 < 0 or top_of_stack-1 < 0) then
+				saida1 <= ram(0);
+			else
+				saida1 <= ram(top_of_stack-2);
+			end if;
+
+			if (top_of_stack-1 < 0) then
+				saida2 <= ram(0);
+			else
+				saida2 <= ram(top_of_stack-1);
 			end if;
 		end if;
-		if (top_of_stack-2 < 0 or top_of_stack-1 < 0) then
-			saida1 <= ram(0);
-		else
-			saida1 <= ram(top_of_stack-2);
-		end if;
-
-		if (top_of_stack-1 < 0) then
-			saida2 <= ram(0);
-		else
-			saida2 <= ram(top_of_stack-1);
-		end if;
-	end if;
 	end process;
 
 	out1 <= saida1;
